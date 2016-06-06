@@ -1,5 +1,5 @@
-// require for twitter stuff
-var keys = require('./keys.js');
+var fs = require('fs');
+
 // var for node use
 var index2 = process.argv[2];
 // var for node use
@@ -10,7 +10,7 @@ if (index2 == "movie-this") {
 	movie();
 
 } else if (index2 == "my-tweets") {
-	console.log('Hold please...')
+	tweets();
 
 } else if  (index2 == "spotify-this-song") {
 	music();
@@ -56,9 +56,26 @@ function music() {
         	console.log('Error occurred: ' + err);
         	return;
     	}
-    	console.log('Artist(s): ' + data.tracks.items[0].artists[0].name)
-        console.log('Song Name: ' + data.tracks.items[0].name);
-        console.log('Preview Link: ' + data.tracks.items[0].preview_url);
-        console.log('Album: ' + data.tracks.items[0].album.name);
+    	console.log(data.tracks.items[0].artists[0].name)
+        console.log(data.tracks.items[0].name);
+        console.log(data.tracks.items[0].preview_url);
+        console.log(data.tracks.items[0].album.name);
 	})
+}
+
+// function that runs my-tweets command
+function tweets() {
+
+	// require for twitter stuff
+	var twitter = require('twitter');
+
+	// require for twitter stuff
+	var client = require('./keys.js');
+
+	var params = {screen_name: 'giant_kosmos'};
+		client.get('statuses/user_timeline', params, function(error, tweets, response){
+ 	 	if (!error) {
+    		console.log(tweets);
+  		}
+	});
 }
