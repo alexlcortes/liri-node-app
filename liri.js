@@ -1,21 +1,21 @@
-
+// require for twitter stuff
 var keys = require('./keys.js');
-// var request = require('request');
-
+// var for node use
 var index2 = process.argv[2];
+// var for node use
 var index3 = process.argv[3];
 
 
 if (index2 == "movie-this") {
 	movie();
 
-} else if (ind2 == "my-tweets") {
+} else if (index2 == "my-tweets") {
 	console.log('Hold please...')
 
-} else if  (ind2 == "spotify-this-song") {
-	console.log('Hold please...')
+} else if  (index2 == "spotify-this-song") {
+	music();
 
-} else if (ind2 == "do-what-it-says") {
+} else if (index2 == "do-what-it-says") {
 	console.log('Hold please...')
 
 } else {
@@ -41,5 +41,24 @@ function movie() {
 		console.log(body.tomatoUserRating);
         console.log(body.tomatoURL);
 
+	})
+}
+
+
+// function that runs spotify-this-song command
+function music() {
+
+	// require for spotify stuff
+	var spotify = require('spotify');
+
+	spotify.search({ type: 'track', query: index3 }, function(err, data) {
+    	if (err) {
+        	console.log('Error occurred: ' + err);
+        	return;
+    	}
+    	console.log('Artist(s): ' + data.tracks.items[0].artists[0].name)
+        console.log('Song Name: ' + data.tracks.items[0].name);
+        console.log('Preview Link: ' + data.tracks.items[0].preview_url);
+        console.log('Album: ' + data.tracks.items[0].album.name);
 	})
 }
