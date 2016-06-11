@@ -99,11 +99,23 @@ function tweets() {
 
 function doWhat() {
 
-	console.log("I guess I can do that...");
+fs.readFile('random.txt', 'utf8', function (err,data) {
+		if (err) {
+	    	return console.log(err);
+	 	} else {
+		  	//Split the string with the seperator as a comma
+		  	var strSplit = data.split(",");
+		  	console.log(strSplit[0]);
+		  	console.log(strSplit[1]);
 
-	fs.readFile('./random.txt', 'utf8', function read(err, data) {
-  	if (err) throw err;
-  	console.log(data);
-});
-
+		  	switch(strSplit[0])	{
+		  		case "spotify-this-song":
+		  			music(strSplit[1]);
+		  			break;
+		  		case "movie-this":
+		  			movie(strSplit[1]);
+		  			break;
+		  	}
+		}
+	});
 }
