@@ -17,6 +17,7 @@ if (index2 == "movie-this") {
 
 } else if (index2 == "do-what-it-says") {
 	console.log('Hold please...')
+	doWhat();
 
 } else {
 	console.log("I will not do that.");
@@ -66,16 +67,43 @@ function music() {
 // function that runs my-tweets command
 function tweets() {
 
+	console.log("The tweets are coming!");
 	// require for twitter stuff
-	var twitter = require('twitter');
+	var Twit = require('twitter')
 
-	// require for twitter stuff
-	var client = require('./keys.js');
+	// twitter keys
+	var config = require('./keys.js');
 
-	var params = {screen_name: 'giant_kosmos'};
-		client.get('statuses/user_timeline', params, function(error, tweets, response){
- 	 	if (!error) {
-    		console.log(tweets);
-  		}
-	});
+	var T = new Twit(config.twitterKeys);
+
+	// parameters for the get process
+	var params = {
+		q: 'giant_kosmos',
+		count: 20
+	};
+
+	T.get('search/tweets', params, gotData);
+
+
+	function gotData(err, data, response) {
+
+		// main section of the JSON object i think
+		var tweets = data.statuses;
+		for (var i = 0; i < tweets.length; i++) {
+			// this prints the time of my tweets and the text inside them
+			console.log("Time: " + tweets[i].created_at + ' ' + "Text: " + tweets[i].text);
+		}
+		// console.log(data.user);
+	}
+}
+
+function doWhat() {
+
+	console.log("I guess I can do that...");
+
+	fs.readFile('./random.txt', 'utf8', function read(err, data) {
+  	if (err) throw err;
+  	console.log(data);
+});
+
 }
